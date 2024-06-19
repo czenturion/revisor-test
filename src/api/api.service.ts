@@ -14,6 +14,22 @@ export const fetchUsers = async () => {
     return []
   }
 }
-export const fetchAlbums = (userId: number) => instance.get(`/users/${userId}/albums`)
-export const fetchPhotos = (albumId: number) => instance.get(`/albums/${albumId}/photos`)
+export const fetchAlbums = async (userId: string) => {
+  try {
+    const res = await instance.get(`/albums/${userId}`)
+    return res.data
+  } catch (er) {
+    console.error(er)
+    return []
+  }
+}
+export const fetchPhotos = async (albumId: string) => {
+  try {
+    const res = await instance.get(`/photos/${albumId}`)
+    return res.data
+  } catch (er) {
+    console.error(er)
+    return []
+  }
+}
 

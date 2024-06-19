@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-type User = {
+export type UserT = {
   email: string
   id: string
   name: string
@@ -10,19 +10,15 @@ type User = {
 export const usersSlice = createSlice({
   name: 'users',
   initialState: {
-    value: [] as User[],
+    value: [] as UserT[],
   },
   reducers: {
     add: (state, action) => {
       state.value = [...state.value, ...action.payload]
     },
-    swap: (state, action) => {
-      state.value = [...action.payload]
-    },
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { add, swap } = usersSlice.actions
+export const { add } = usersSlice.actions
 
 export default usersSlice.reducer

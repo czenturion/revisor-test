@@ -1,27 +1,28 @@
 import { FC } from 'react'
-import { Button, Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const HeaderWrapper = styled(Row)`
+const HeaderWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
     margin-bottom: 16px;
 `
 
-const ButtonWrapper = styled(Col)`
+const ButtonWrapper = styled.div`
     width: 50%;
     height: 55px;
 `
 
-const NavButton = styled(Button)`
+const NavButton = styled.button`
     border: none;
     outline: none;
     width: 100%;
     height: 100%;
     color: #1C1C1C;
     border-radius: 16px;
+    background: none;
+    cursor: pointer;
     
     &&:active,
     &&:focus,
@@ -45,14 +46,14 @@ const Header: FC = () => {
     <HeaderWrapper>
       <ButtonWrapper>
         <Link to='/' type='text'>
-          <NavButton type='link'>
+          <NavButton>
             <TextWrapper>Каталог</TextWrapper>
           </NavButton>
         </Link>
       </ButtonWrapper>
       <ButtonWrapper>
         <Link to='/favorites'>
-          <NavButton type='link'>
+          <NavButton>
             <TextWrapper>Избранное</TextWrapper>
           </NavButton>
         </Link>
