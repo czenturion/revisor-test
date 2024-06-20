@@ -1,16 +1,8 @@
 import { FC, useState } from 'react'
+import { AlbumItemsPropsT } from '../types/catalogTypes.ts'
+import styled from 'styled-components'
 import PhotoList from './PhotoList'
-import styled from "styled-components";
 
-type AlbumT = {
-  albumId: string
-  title: string
-  userId: string
-}
-
-type Props = {
-  album: AlbumT
-}
 
 const AlbumItemWrapper = styled.div`
     display: flex;
@@ -33,7 +25,7 @@ const TextWrapper = styled.h2`
     margin-left: 24px;
 `
 
-const AlbumItem: FC<Props> = ({ album }) => {
+const AlbumItem: FC<AlbumItemsPropsT> = ({ album, onImageClick }) => {
   const [expanded, setExpanded] = useState(false)
 
 
@@ -49,7 +41,7 @@ const AlbumItem: FC<Props> = ({ album }) => {
         {album.title}
       </TextWrapper>
       </AlbumExpandBar>
-      {expanded && <PhotoList albumId={album.albumId} />}
+      {expanded && <PhotoList albumId={album.albumId} onImageClick={onImageClick} />}
     </AlbumItemWrapper>
   )
 }

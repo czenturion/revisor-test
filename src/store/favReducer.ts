@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export type FavPhotoT = {
   url: string
+  title: string
 }
 
 export const favSlice = createSlice({
@@ -10,15 +11,15 @@ export const favSlice = createSlice({
     value: [] as FavPhotoT[],
   },
   reducers: {
-    addPhotoUrl: (state, action) => {
+    addPhoto: (state, action) => {
       state.value = [...state.value, action.payload]
     },
-    remove: (state, action) => {
-      state.value = [...state.value.filter(photoUrl => photoUrl !== action.payload)]
+    removePhoto: (state, action) => {
+      state.value = state.value.filter((_photo, index) => index!== action.payload)
     }
   },
 })
 
-export const { addPhotoUrl, remove} = favSlice.actions
+export const { addPhoto, removePhoto} = favSlice.actions
 
 export default favSlice.reducer

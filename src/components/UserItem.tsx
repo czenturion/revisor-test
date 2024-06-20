@@ -1,11 +1,7 @@
 import { FC, useState } from 'react'
+import styled from 'styled-components'
 import AlbumList from './AlbumList'
-import { UserT } from '../store/usersReducer.ts'
-import styled from "styled-components";
-
-type Props = {
-  user: UserT
-}
+import {UserItemPropsT} from "../types/catalogTypes.ts";
 
 const UserItemWrapper = styled.div`
     align-items: center;
@@ -27,7 +23,7 @@ const TextWrapper = styled.h1`
     margin-left: 24px;
 `
 
-const UserItem: FC<Props> = ({ user }) => {
+const UserItem: FC<UserItemPropsT> = ({ user, onImageClick }) => {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -42,7 +38,7 @@ const UserItem: FC<Props> = ({ user }) => {
           {user.name}
         </TextWrapper>
       </UserExpandBar>
-      {expanded && <AlbumList userId={user.id}/>}
+      {expanded && <AlbumList userId={user.id} onImageClick={onImageClick} />}
     </UserItemWrapper>
   );
 };

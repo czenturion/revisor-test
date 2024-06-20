@@ -1,15 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { fetchPhotos } from '../api/api.service'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../store/store.ts'
+import { PhotoListPropsT, PhotoT } from '../types/catalogTypes.ts'
 import styled from 'styled-components'
 import Photo from './Photo.tsx'
+import Loader from './Loader.tsx'
 
-type PhotoT = {
-  url: string
-}
-
-type Props = {
-  albumId: string
-}
 
 const PhotoListWrapper = styled.div`
     position: relative;
@@ -19,18 +16,31 @@ const PhotoListWrapper = styled.div`
     padding: 32px 0 32px 105px;
 `
 
-const PhotoList: FC<Props> = ({ albumId }) => {
+const PhotoList: FC<PhotoListPropsT> = ({ albumId, onImageClick }) => {
+  const dispatch = useDispatch()
+  const isLoading = useSelector((state: RootState) => state.apiStatus.photosIsLoading)
   const [photos, setPhotos] = useState<PhotoT[]>([])
 
   useEffect(() => {
-    fetchPhotos(albumId).then(setPhotos)
+    fetchPhotos(albumId, dispatch)
+      .then(setPhotos)
   }, [albumId])
 
   return (
     <PhotoListWrapper>
-      {photos.map((photo, index) => (
-        <Photo key={index} url={photo.url} index={index} />
-      ))}
+      {
+        !isLoading || photos.length > 0
+          ? photos.map((photo, index) => (
+            <Photo
+              key={index}
+              index={index}
+              url={photo.url}
+              title={photo.title}
+              onImageClick={onImageClick}
+            />
+          ))
+          : <Loader />
+      }
     </PhotoListWrapper>
   )
 }

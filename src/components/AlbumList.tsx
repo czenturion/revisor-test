@@ -1,34 +1,35 @@
 import { FC, useEffect, useState } from 'react'
 import { fetchAlbums } from '../api/api.service.ts'
-import AlbumItem from './AlbumItem'
-import styled from "styled-components";
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../store/store.ts'
+import { AlbumListPropsT, AlbumT } from '../types/catalogTypes.ts'
+import styled from 'styled-components'
+import AlbumItem from './AlbumItem.tsx'
+import Loader from './Loader.tsx'
 
-type AlbumT = {
-  albumId: string
-  title: string
-  userId: string
-}
-
-type Props = {
-  userId: string
-}
 
 const AlbumsWrapper = styled.div`
     width: 100%;
 `
 
-const AlbumList: FC<Props> = ({ userId }) => {
+const AlbumList: FC<AlbumListPropsT> = ({ userId, onImageClick }) => {
+  const dispatch = useDispatch()
+  const isLoading = useSelector((state: RootState) => state.apiStatus.albumsIsLoading)
   const [albums, setAlbums] = useState<AlbumT[]>([])
 
   useEffect(() => {
-    fetchAlbums(userId).then(setAlbums)
+    fetchAlbums(userId, dispatch).then(setAlbums)
   }, [userId])
 
   return (
     <AlbumsWrapper>
-      {albums.map((album, index) => (
-        <AlbumItem key={index} album={album} />
-      ))}
+      {
+        !isLoading || albums.length > 0
+          ? albums.map((album, index) => (
+            <AlbumItem key={index} album={album} onImageClick={onImageClick} />
+          ))
+          : <Loader />
+      }
     </AlbumsWrapper>
   )
 }
